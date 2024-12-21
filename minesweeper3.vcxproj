@@ -132,6 +132,14 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="flag.jpg" />
+    <Image Include="flag.png" />
+    <Image Include="mine.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Heavitas.ttf" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
