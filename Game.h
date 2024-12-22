@@ -1,40 +1,41 @@
 #pragma once
-#include <iostream>
 #include <ctime>
 #include <string.h>
 #include <SFML/Graphics.hpp>
-#include "globals.hpp"
 #include "Tile.h"
+
+enum Difficulty
+{
+    BEGINNER,
+    INTERMEDIATE,
+    EXPERT
+};
 
 
 class Game
 {
 public:
 	Game();
+    ~Game()
+	{
+        for (int i = 0; i < stdGridSize[Difficulty::BEGINNER].x; ++i) 
+        {
+            delete[] grid[i]; // Delete each row
+        }
+        delete[] grid; // Delete the outer array
+	}
 	void run();
 private:
-    bool showTile[16][30], hideFlag[16][30], leftMouseHeld = false,
-        rightMouseHeld = false, firstClick = true, showGame = false,
-        gameOver = false, startSetup = false;
-    int minefield[16][30], difficulty = 3, seed = time(nullptr);
-    float fade = 0;
+    int difficulty = 3, seed = time(nullptr);
     const float SPACING_CONST = 505 / 16.0;
     sf::RenderWindow window;
-    sf::RectangleShape button, menuButton[3];
     sf::Font heavitas;
-    sf::Text mineNumber, endText, restartText, menuText, menuButtonText[3];
-    sf::Texture flagImage, mineImage;
-    sf::Sprite flag, mine;
 
-    void textStringUpdate(sf::Text&, std::string);
-    void textStringUpdate(sf::Text&, std::string, int);
-    void resetGrid(int[][30]);
-    void resetGrid(bool[][30]);
-    void randGrid(int[][30], int);
-    void labelGrid(int[][30], int);
-    void revealTiles(int[][30], bool[][30], int, int);
-    bool buttonPressed(sf::RectangleShape, sf::RenderWindow&);
-    bool notOutOfBounds(int[][30], int, int, int, int);
-    bool gameWin(int[][30], bool[][30], int);
+    Tile** grid;
+    //default grid size (in terms of tiles) for each standard difficulty
+    const sf::Vector2u stdGridSize[3] { sf::Vector2u(9, 9), sf::Vector2u(16, 316), sf::Vector2u(16, 30) };
+    //default tile size (height and length for each tile) for each standard difficulty
+    const sf::Vector2f stdTileSize[3] { sf::Vector2f(60, 60),
+    	sf::Vector2f(SPACING_CONST, SPACING_CONST), sf::Vector2f(SPACING_CONST, SPACING_CONST) }; //yes these are duplicates no I don't care
 
 };

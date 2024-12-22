@@ -15,6 +15,7 @@ TODO:
     - add timer
     - add seeding
     - add custom difficulty (size and mines)
+		- could be an absolute pain to size spaces btw maybe save this one for a while
     - add save files
     - add saved stats
         - flag vs flag-less

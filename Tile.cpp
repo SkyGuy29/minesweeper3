@@ -7,6 +7,23 @@ Tile::Tile(const sf::Font& font)
 }
 
 
+void Tile::setSize(const sf::Vector2f size)
+{
+	rect.setSize(size);
+	rect.setOrigin(size.x / 2, size.y / 2);
+	/* flag.setScale(some wack multiplier idk); */
+}
+
+
+void Tile::setPos(const sf::Vector2f pos)
+{
+	rect.setPosition(pos);
+	flag.setPosition(pos);
+	mineSprite.setPosition(pos);
+	text.setPosition(pos);
+}
+
+
 void Tile::setNum(const char newNum)
 {
 	mineNum = newNum;

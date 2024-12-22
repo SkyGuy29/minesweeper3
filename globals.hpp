@@ -7,8 +7,8 @@
 
 
 static constexpr auto PI = 3.1415926535897932; //mmm yummy precision
-static constexpr auto FRAMERATE = 60; //constant for now but will be able to be changed in settings
-static constexpr auto MINE = 9;
+static constexpr auto FRAMERATE = 30; //constant for now but will be able to be changed in settings
+static constexpr auto MINE = 9; //see I told you so
 
 
 //returns the position of the mouse relative to the window,

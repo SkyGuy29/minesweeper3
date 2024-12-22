@@ -5,10 +5,12 @@
 class Tile
 {
 public:
+	Tile() = default;
 	Tile(const sf::Font&);
 	~Tile() = default;
 
-	void setSize(const sf::Vector2f size) {	rect.setSize(size);	/* flag.setScale(some wack multiplier idk); */}
+	void setSize(const sf::Vector2f size);
+	void setPos(const sf::Vector2f pos);
 
 	bool isFlagged() const { return flagged; }
 	//for initialization? how will we set it relative to the others
