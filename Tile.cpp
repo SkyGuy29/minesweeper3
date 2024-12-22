@@ -1,10 +1,9 @@
 #include "Tile.h"
 
 
-Tile::Tile()
+Tile::Tile(const sf::Font& font)
 {
-	//heavitas.loadFromFile("heavitas.ttf");
-	//text.setFont(heavitas);
+	text.setFont(font);
 }
 
 

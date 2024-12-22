@@ -5,7 +5,7 @@
 class Tile
 {
 public:
-	Tile();
+	Tile(const sf::Font&);
 	~Tile() = default;
 
 	void setSize(const sf::Vector2f size) {	rect.setSize(size);	/* flag.setScale(some wack multiplier idk); */}
