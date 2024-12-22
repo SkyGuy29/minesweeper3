@@ -1,7 +1,9 @@
 #include <iostream>
-#include <time.h>
+#include <ctime>
 #include <string.h>
 #include <SFML/Graphics.hpp>
+#include "globals.hpp"
+#include "Tile.h"
 
 
 void textStringUpdate(sf::Text&, std::string);
@@ -41,6 +43,7 @@ TODO:
         - total wins, losses, tiles cleared, flags placed, clicks in game
         - win rate
     - get better sprites for everything
+		- number colors PLEASE
     - add sfx!
 */
 
@@ -50,18 +53,18 @@ int main()
     bool showTile[16][30], hideFlag[16][30], leftMouseHeld = false,
         rightMouseHeld = false, firstClick = true, showGame = false,
         gameOver = false, startSetup = false;
-    int minefield[16][30], difficulty = 3;
+    int minefield[16][30], difficulty = 3, seed = time(nullptr);
     float fade = 0;
-    const float THE_NUM = 505 / 16.0;
+    const float SPACING_CONST = 505 / 16.0;
     sf::RenderWindow window(sf::VideoMode(1280, 720), "Minesweeper");
     sf::RectangleShape button, menuButton[3];
     sf::Font heavitas;
     sf::Text mineNumber, endText, restartText, menuText, menuButtonText[3];
     sf::Texture flagImage, mineImage;
     sf::Sprite flag, mine;
-    srand(time(0));
+    srand(seed);
 
-    window.setFramerateLimit(30);
+    window.setFramerateLimit(FRAMERATE);
 
     if (!heavitas.loadFromFile("Heavitas.ttf")) {}
 
@@ -117,14 +120,14 @@ int main()
                 window.close();       
         }
 
-        if(!sf::Mouse::isButtonPressed(sf::Mouse::Left))
+        if(!isButtonPressed(sf::Mouse::Left))
             leftMouseHeld = false;
 
-        if (!sf::Mouse::isButtonPressed(sf::Mouse::Right))
+        if (!isButtonPressed(sf::Mouse::Right))
             rightMouseHeld = false;
 
         //main menu before game
-        if (!showGame && sf::Mouse::isButtonPressed(sf::Mouse::Left))
+        if (!showGame && isButtonPressed(sf::Mouse::Left))
         {
             for (int i = 0; i < 3; i++)
             {
@@ -149,8 +152,8 @@ int main()
                 break;
             case 2:
             case 3:
-                button.setSize(sf::Vector2f(THE_NUM, THE_NUM));
-                button.setOrigin(THE_NUM / 2, THE_NUM / 2);
+                button.setSize(sf::Vector2f(SPACING_CONST, SPACING_CONST));
+                button.setOrigin(SPACING_CONST / 2, SPACING_CONST / 2);
                 break;
             default:
                 break;
@@ -188,7 +191,7 @@ int main()
             }
             flag.setOrigin(flag.getLocalBounds().width / 2, flag.getLocalBounds().height / 2);
 
-            if (!mineImage.loadFromFile("mine.png")) {};
+            mineImage.loadFromFile("mine.png");
             mineImage.setSmooth(true);
             mine.setTexture(mineImage);
             switch (difficulty)
@@ -209,7 +212,7 @@ int main()
         }
 
         //interacting with tiles
-        if (showGame && sf::Mouse::isButtonPressed(sf::Mouse::Left) && !leftMouseHeld && !gameOver)
+        if (showGame && isButtonPressed(sf::Mouse::Left) && !leftMouseHeld && !gameOver)
         {
             switch (difficulty)
             {
@@ -268,8 +271,8 @@ int main()
                 {
                     if (showTile[i / 16][i % 16])
                     {
-                        button.setPosition(window.getSize().x / 2 - 290 + THE_NUM / 2 + (i / 16 * (THE_NUM + 5)),
-                            window.getSize().y / 2 - 290 + THE_NUM / 2 + (i % 16 * (THE_NUM + 5)));
+                        button.setPosition(window.getSize().x / 2 - 290 + SPACING_CONST / 2 + (i / 16 * (SPACING_CONST + 5)),
+                            window.getSize().y / 2 - 290 + SPACING_CONST / 2 + (i % 16 * (SPACING_CONST + 5)));
                         if (buttonPressed(button, window) && hideFlag[i / 16][i % 16])
                         {
                             if (firstClick)
@@ -318,8 +321,8 @@ int main()
                 {
                     if (showTile[i / 30][i % 30])
                     {
-                        button.setPosition(window.getSize().x / 2 - 546 + THE_NUM / 2 + (i % 30 * (THE_NUM + 5)),
-                            window.getSize().y / 2 - 290 + THE_NUM / 2 + (i / 30 * (THE_NUM + 5)));
+                        button.setPosition(window.getSize().x / 2 - 546 + SPACING_CONST / 2 + (i % 30 * (SPACING_CONST + 5)),
+                            window.getSize().y / 2 - 290 + SPACING_CONST / 2 + (i / 30 * (SPACING_CONST + 5)));
                         if (buttonPressed(button, window) && hideFlag[i / 30][i % 30])
                         {
                             if (firstClick)
@@ -371,7 +374,7 @@ int main()
         }
 
         //placing flags on tiles
-        if (showGame && sf::Mouse::isButtonPressed(sf::Mouse::Right) && !rightMouseHeld && !gameOver)
+        if (showGame && isButtonPressed(sf::Mouse::Right) && !rightMouseHeld && !gameOver)
         {
             switch (difficulty)
             {
@@ -401,8 +404,8 @@ int main()
                 {
                     if (showTile[i / 16][i % 16])
                     {
-                        button.setPosition(window.getSize().x / 2 - 290 + THE_NUM / 2 + (i / 16 * (THE_NUM + 5)),
-                            window.getSize().y / 2 - 290 + THE_NUM / 2 + (i % 16 * (THE_NUM + 5)));
+                        button.setPosition(window.getSize().x / 2 - 290 + SPACING_CONST / 2 + (i / 16 * (SPACING_CONST + 5)),
+                            window.getSize().y / 2 - 290 + SPACING_CONST / 2 + (i % 16 * (SPACING_CONST + 5)));
                         if (buttonPressed(button, window))
                         {
                             if (hideFlag[i / 16][i % 16])
@@ -422,8 +425,8 @@ int main()
                 {
                     if (showTile[i / 30][i % 30])
                     {
-                        button.setPosition(window.getSize().x / 2 - 546 + THE_NUM / 2 + (i % 30 * (THE_NUM + 5)),
-                            window.getSize().y / 2 - 290 + THE_NUM / 2 + (i / 30 * (THE_NUM + 5)));
+                        button.setPosition(window.getSize().x / 2 - 546 + SPACING_CONST / 2 + (i % 30 * (SPACING_CONST + 5)),
+                            window.getSize().y / 2 - 290 + SPACING_CONST / 2 + (i / 30 * (SPACING_CONST + 5)));
                         if (buttonPressed(button, window))
                         {
                             if (hideFlag[i / 30][i % 30])
@@ -458,7 +461,7 @@ int main()
         }
 
         //reseting after a game
-        if (showGame && gameOver && !leftMouseHeld && sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+        if (showGame && gameOver && !leftMouseHeld && isKeyPressed(sf::Keyboard::R))
         {
             button.setFillColor(sf::Color::Cyan);
             mineNumber.setFillColor(sf::Color::White);
@@ -536,8 +539,8 @@ int main()
         case 2:
             for (int i = 0; i < 256; i++)
             {
-                button.setPosition(window.getSize().x / 2 - 290 + THE_NUM / 2 + (i / 16 * (THE_NUM + 5)),
-                    window.getSize().y / 2 - 290 + THE_NUM / 2 + (i % 16 * (THE_NUM + 5)));
+                button.setPosition(window.getSize().x / 2 - 290 + SPACING_CONST / 2 + (i / 16 * (SPACING_CONST + 5)),
+                    window.getSize().y / 2 - 290 + SPACING_CONST / 2 + (i % 16 * (SPACING_CONST + 5)));
 
                 textStringUpdate(mineNumber, std::to_string(minefield[i / 16][i % 16]));
                 mineNumber.setPosition(button.getPosition().x - 1, button.getPosition().y - 8);
@@ -583,8 +586,8 @@ int main()
         case 3:
             for (int i = 0; i < 480; i++)
             {
-                button.setPosition(window.getSize().x / 2 - 546 + THE_NUM / 2 + (i % 30 * (THE_NUM + 5)),
-                    window.getSize().y / 2 - 290 + THE_NUM / 2 + (i / 30 * (THE_NUM + 5)));
+                button.setPosition(window.getSize().x / 2 - 546 + SPACING_CONST / 2 + (i % 30 * (SPACING_CONST + 5)),
+                    window.getSize().y / 2 - 290 + SPACING_CONST / 2 + (i / 30 * (SPACING_CONST + 5)));
 
                 textStringUpdate(mineNumber, std::to_string(minefield[i / 30][i % 30]));
                 mineNumber.setPosition(button.getPosition().x - 1, button.getPosition().y - 8);
