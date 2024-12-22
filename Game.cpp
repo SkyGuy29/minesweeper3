@@ -44,12 +44,6 @@ void Game::run()
                 window.close();       
         }
 
-        if(!isButtonPressed(sf::Mouse::Left))
-            leftMouseHeld = false;
-
-        if (!isButtonPressed(sf::Mouse::Right))
-            rightMouseHeld = false;
-
 		//position tiles AAAAAAAAAAAAAAAAAAAAAAAAAAA
 
 		window.clear();
